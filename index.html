@@ -161,6 +161,23 @@ h2{font-size:clamp(2rem,4.4vw,3.3rem);max-width:18ch}
 .card-hit{position:absolute;inset:0;border:0;background:none;border-radius:inherit}
 .card-hit:focus-visible{outline:2px solid var(--gold);outline-offset:-3px}
 
+/* logo design section (added) */
+.logo-sec{margin-top:clamp(56px,8vw,96px);scroll-margin-top:92px}
+.logo-sec h3.logo-title{font-size:clamp(1.8rem,3.6vw,2.6rem);max-width:none}
+.logo-sec .lead{margin-top:10px}
+.logo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:18px;margin-top:30px}
+.logo-grid .card{grid-column:auto!important}
+.logo-media{position:relative;aspect-ratio:4/3;overflow:hidden}
+.logo-media img{position:absolute;inset:6%;width:88%;height:88%;object-fit:contain;transition:transform .7s var(--ease)}
+.card:hover .logo-media img{transform:scale(1.05)}
+.logo-view{position:relative;aspect-ratio:4/3;max-height:62vh;width:100%}
+.logo-view img{position:absolute;inset:5%;width:90%;height:90%;object-fit:contain}
+.sw{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:14px}
+.sw small{color:var(--muted);font-size:.85rem;margin-right:4px}
+.sw span{padding:6px 14px;border-radius:99px;border:1px solid var(--line2);font-size:.85rem;font-weight:600;color:var(--gold2)}
+.m-nav{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:22px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:.9rem}
+@media (max-width:560px){.logo-view{max-height:48vh}.m-nav{flex-wrap:wrap;justify-content:center}}
+
 /* modal */
 dialog{margin:auto;width:min(720px,100% - 24px);max-height:calc(100vh - 32px);border:1px solid var(--line2);border-radius:28px;background:var(--card);color:var(--text);padding:0;overflow:auto;box-shadow:0 40px 100px -20px rgba(0,0,0,.8)}
 dialog::backdrop{background:rgba(5,7,12,.74);backdrop-filter:blur(6px)}
@@ -287,7 +304,7 @@ footer{padding:34px 0 46px;border-top:1px solid var(--line);margin-top:clamp(60p
         <a class="btn" href="#contact">Get in touch</a>
       </div>
       <div class="stats">
-        <div><b data-count="9">0</b><span>featured projects</span></div>
+        <div><b id="stat-projects" data-count="9">0</b><span>featured projects</span></div>
         <div><b data-count="6">0</b><span>service areas</span></div>
         <div><b data-count="5">0</b><span>design tools</span></div>
       </div>
@@ -343,6 +360,12 @@ footer{padding:34px 0 46px;border-top:1px solid var(--line);margin-top:clamp(60p
       <div class="filters" id="filters" role="group" aria-label="Filter projects"></div>
     </div>
     <div class="grid" id="grid"></div>
+
+    <div class="logo-sec" id="logo-design">
+      <h3 class="logo-title">Logo Design</h3>
+      <p class="lead">Creative Brand Identity &amp; Logo Design</p>
+      <div class="logo-grid" id="logoGrid"></div>
+    </div>
   </div>
 </section>
 
@@ -406,17 +429,50 @@ footer{padding:34px 0 46px;border-top:1px solid var(--line);margin-top:clamp(60p
 <script>
 /* ================= EDIT YOUR DETAILS HERE ================= */
 const CONFIG = {
-  email: "designstudiovinayak@gmail.com",   // used by the contact form and the email link
+  email: "your.email@example.com",   // used by the contact form and the email link
   phone: "",                          // e.g. "+91 98765 43210"  (leave empty to hide)
   whatsapp: "",                       // digits only with country code, e.g. "919876543210"
-  location: "Coimbatore Peelamedu, Tamil Nadu, India",
+  location: "Coimbatore, Tamil Nadu, India",
   socials: [
-    // { label: "Behance",  url: "https://www.behance.net/shenbagaramanramki" },
+    // { label: "Behance",  url: "https://www.behance.net/your-name" },
     // { label: "LinkedIn", url: "https://www.linkedin.com/in/your-name" },
     // { label: "Instagram", url: "https://www.instagram.com/your-name" }
   ]
 };
 /* ========================================================== */
+
+/* ============ LOGO DESIGN PROJECTS: ADD NEW LOGOS HERE ============
+   To add a logo:
+   1. Save the image in the  images/logos/  folder next to index.html
+   2. Copy one { ... } block below, paste it at the END of the list (before the closing ]),
+      and fill in title, description, software and image.
+   3. Save. It appears in the Logo Design section automatically.
+   "bg" is optional: the card background behind the logo. Use the logo's own
+   background colour so it blends in; leave it out for white. */
+const LOGOS = [
+  {
+    title: "Vinayak Design Studio",
+    description: "A V and D monogram in navy and orange with a pen-nib detail, paired with a bold wordmark for a design studio.",
+    software: ["Adobe Illustrator"],
+    image: "images/logos/vinayak-design-studio.png",
+    bg: "#ffffff"
+  },
+  {
+    title: "Sun Emblem",
+    description: "An illustrated sun emblem with a stylised face at its centre, built from deep red, black and white.",
+    software: ["Adobe Illustrator"],
+    image: "images/logos/sun-emblem.png",
+    bg: "#ffe2e2"
+  },
+  {
+    title: "Sri Padmalaya Academy",
+    description: "A dancer rising from open hands, with the tagline Learn, Practice, Perform and a blue, orange and green palette.",
+    software: ["Adobe Illustrator"],
+    image: "images/logos/sri-padmalaya-academy.png",
+    bg: "#ffff00"
+  }
+];
+/* ================================================================= */
 
 const ICON = {
   graphic:'<path d="M12 3l7 7-7 11-7-11z"/><path d="M12 3v9"/><circle cx="12" cy="13" r="1.4"/>',
@@ -497,7 +553,7 @@ const arrowUR = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stro
 /* projects */
 (function(){
   const grid = $("#grid"), filters = $("#filters"), modal = $("#modal"), mIn = $("#m-in");
-  const cats = ["All", ...new Set(PROJECTS.map(p=>p.cat))];
+  const cats = ["All", ...new Set(PROJECTS.map(p=>p.cat)), "Logo Design"];
   filters.innerHTML = cats.map((c,i)=>`<button class="chip" type="button" data-cat="${esc(c)}" aria-pressed="${i===0}">${esc(c)}</button>`).join("");
   const cover = p => p.img ? `<img src="${esc(p.img)}" alt="${esc(p.title)}" loading="lazy">` : ART[p.art]();
   grid.innerHTML = PROJECTS.map(p=>`
@@ -517,6 +573,8 @@ const arrowUR = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stro
     const b = e.target.closest(".chip"); if(!b) return;
     $$(".chip",filters).forEach(x=>x.setAttribute("aria-pressed", String(x===b)));
     const cat = b.dataset.cat;
+    grid.hidden = cat==="Logo Design";
+    $("#logo-design").hidden = !(cat==="All" || cat==="Logo Design");
     $$(".card",grid).forEach(c=>{
       const show = cat==="All" || c.dataset.cat===cat;
       c.hidden = !show;
@@ -596,6 +654,38 @@ const arrowUR = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stro
     es.forEach(en=>{ if(en.isIntersecting){ links.forEach(l=>l.classList.toggle("active", l.getAttribute("href")==="#"+en.target.id)); } });
   },{rootMargin:"-45% 0px -50% 0px"});
   ["about","services","work","skills","contact"].forEach(id=>io.observe(document.getElementById(id)));
+})();
+
+/* logo design gallery + larger preview */
+(function(){
+  const gridEl = $("#logoGrid"), modal = $("#modal"), mIn = $("#m-in");
+  if(!gridEl || !Array.isArray(LOGOS)) return;
+  const stat = $("#stat-projects");
+  if(stat) stat.dataset.count = PROJECTS.length + LOGOS.length;
+  gridEl.innerHTML = LOGOS.map((p,i)=>`
+    <article class="card" data-cat="Logo Design">
+      <div class="logo-media" style="background:${esc(p.bg||"#fff")}"><img src="${esc(p.image)}" alt="${esc(p.title)} logo" loading="lazy" decoding="async"></div>
+      <div class="card-body"><span class="tag">Logo Design</span><h3>${esc(p.title)}</h3><p>${esc(p.description)}</p>
+        <span class="more">View larger ${arrowUR}</span></div>
+      <button class="card-hit" type="button" data-i="${i}" aria-label="View larger: ${esc(p.title)}"></button>
+    </article>`).join("");
+  let cur = null;
+  function open(i){
+    const n = LOGOS.length; cur = (i+n)%n; const p = LOGOS[cur];
+    mIn.innerHTML = `
+      <button class="x" type="button" aria-label="Close preview" data-close>&times;</button>
+      <div class="logo-view" style="background:${esc(p.bg||"#fff")}"><img src="${esc(p.image)}" alt="${esc(p.title)} logo"></div>
+      <div class="m-body"><span class="tag">Logo Design</span><h3 id="m-title">${esc(p.title)}</h3>
+        <p style="color:var(--muted)">${esc(p.description)}</p>
+        ${(p.software&&p.software.length)?`<div class="sw"><small>Software</small>${p.software.map(s=>`<span>${esc(s)}</span>`).join("")}</div>`:""}
+        ${n>1?`<div class="m-nav"><button class="btn sm" type="button" data-step="-1" aria-label="Previous logo">Previous</button><span aria-live="polite">${cur+1} / ${n}</span><button class="btn sm" type="button" data-step="1" aria-label="Next logo">Next</button></div>`:""}
+      </div>`;
+    if(!modal.open) (typeof modal.showModal==="function" ? modal.showModal() : modal.setAttribute("open",""));
+  }
+  gridEl.addEventListener("click",e=>{ const b = e.target.closest(".card-hit"); if(b) open(+b.dataset.i); });
+  modal.addEventListener("click",e=>{ const b = e.target.closest("[data-step]"); if(b && cur!==null) open(cur + +b.dataset.step); });
+  modal.addEventListener("keydown",e=>{ if(cur===null) return; if(e.key==="ArrowRight") open(cur+1); if(e.key==="ArrowLeft") open(cur-1); });
+  modal.addEventListener("close",()=>{ cur = null; });
 })();
 
 /* count-up stats */
